@@ -633,3 +633,43 @@
   .why-list .reveal:nth-child(1){transition-delay:0s;}
   .why-list .reveal:nth-child(2){transition-delay:.1s;}
   .why-list .reveal:nth-child(3){transition-delay:.2s;}
+
+  /* ---------- BLOG ---------- */
+  .blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  @media(max-width:900px){.blog-grid{grid-template-columns:1fr 1fr;}}
+  @media(max-width:640px){.blog-grid{grid-template-columns:1fr;}}
+  .blog-card{
+    background:var(--charcoal);border:1px solid var(--line);border-radius:18px;
+    padding:28px 26px;display:flex;flex-direction:column;gap:14px;
+    transition:background .2s ease, border-color .2s ease, transform .2s ease;
+  }
+  .blog-card:hover{background:var(--charcoal-2);border-color:var(--orange-soft);transform:translateY(-3px);}
+  .blog-tag{
+    align-self:flex-start;
+    font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--orange);
+    border:1px solid var(--line);padding:5px 12px;border-radius:100px;
+  }
+  .blog-card h3{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:600;line-height:1.3;}
+  .blog-card p{color:var(--gray);font-size:0.9rem;line-height:1.55;flex:1;}
+  .blog-card .blog-read{
+    font-family:'JetBrains Mono',monospace;font-size:0.8rem;color:var(--orange-soft);
+  }
+
+  /* ---------- ARTÍCULO DE BLOG ---------- */
+  .article-doc{max-width:700px;}
+  .article-doc h2{
+    font-family:'Space Grotesk',sans-serif;font-weight:600;
+    font-size:1.2rem;color:var(--paper);margin-top:34px;margin-bottom:12px;
+  }
+  .article-doc h2:first-of-type{margin-top:0;}
+  .article-doc p{color:var(--gray);line-height:1.75;margin-bottom:16px;font-size:0.98rem;}
+  .article-doc ul, .article-doc ol{margin:0 0 16px 22px;color:var(--gray);line-height:1.75;font-size:0.98rem;}
+  .article-doc li{margin-bottom:8px;}
+  .article-doc strong{color:var(--paper);font-weight:600;}
+  .article-doc a{color:var(--orange-soft);text-decoration:underline;text-underline-offset:3px;}
+  .article-doc a:hover{color:var(--orange);}
+  .article-cta{
+    margin-top:40px;background:var(--charcoal);border:1px solid var(--line);
+    border-radius:16px;padding:26px 30px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;
+  }
+  .article-cta p{color:var(--paper);font-size:0.98rem;margin:0;font-weight:500;}
