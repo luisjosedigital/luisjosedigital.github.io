@@ -14,14 +14,13 @@
 
 const ENTREGAS = {
 
-  // Ejemplo — bórralo o edítalo para tu primera entrega real:
-  "ejemplo-entrega": {
-    cliente: "Nombre del cliente",
-    descripcion: "Video final — versión editada",
-    // Este hash corresponde a la contraseña: demo123
-    passwordHash: "d3ad9315b7be5dd53b31a273b3b3aba5defe700808305aa16a3062b76658a791",
+  "olga-murillo-videos": {
+    cliente: "Olga Murillo",
+    descripcion: "Tus 2 videos — versión final",
+    passwordHash: "02fe293f02f99bbce64db9e3a15cf8c774c7437b1228d58a64a550a4470f9bbc",
     archivos: [
-      { nombre: "Video final (MP4)", url: "https://drive.google.com/PON-AQUI-EL-LINK-DE-DRIVE" }
+      { nombre: "Video 1", url: "https://drive.google.com/file/d/17a4spoBXMmQ58fr2OQ8kzFZHX-cd3SRj/view?usp=drivesdk" },
+      { nombre: "Video 2", url: "https://drive.google.com/file/d/1jaId19mp-Z0UJ_BaL9PfCfb3WSfPt7z9/view?usp=drivesdk" }
     ]
   }
 
@@ -29,13 +28,12 @@ const ENTREGAS = {
   // separándolos con una coma. Ejemplo:
   //
   // ,
-  // "omcontandosoluciones-video-2": {
-  //   cliente: "Omcontandosoluciones",
-  //   descripcion: "Video corporativo — versión final",
+  // "otro-cliente-video": {
+  //   cliente: "Nombre",
+  //   descripcion: "Descripción del trabajo",
   //   passwordHash: "...",
   //   archivos: [
-  //     { nombre: "Video final (MP4)", url: "https://drive.google.com/..." },
-  //     { nombre: "Miniatura (JPG)", url: "https://drive.google.com/..." }
+  //     { nombre: "Video final (MP4)", url: "https://drive.google.com/..." }
   //   ]
   // }
 
