@@ -22,6 +22,7 @@
 <link rel="stylesheet" href="style.css">
 <link rel="canonical" href="https://luisjosedigital.github.io/">
 <meta name="google-site-verification" content="dXEPbk71OU6Zuv2R-OSCuUD6ZIfxZNuP-fi2BZ7kyTI" />
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -276,6 +277,16 @@
               <textarea id="f-detalles" placeholder="Ej: tengo una tienda de ropa y quiero una página para vender online..."></textarea>
             </div>
 
+            <div class="field honeypot-field">
+              <label for="f-honeypot">No completar este campo</label>
+              <input type="text" id="f-honeypot" autocomplete="off" tabindex="-1" />
+            </div>
+
+            <div class="field turnstile-field">
+              <div class="turnstile" data-sitekey="TU_CLAVE_TURNSTILE_AQUI" data-callback="onTurnstileSuccess" data-theme="dark"></div>
+              <div class="turnstile-note" id="turnstile-status">Por favor confirma que no eres un robot.</div>
+            </div>
+
             <button class="pedido-submit" onclick="enviarPedido('whatsapp')">
               Enviar pedido por WhatsApp →
             </button>
@@ -306,7 +317,26 @@
       return msg;
     }
 
+    let turnstileValidated = false;
+
+    function onTurnstileSuccess(token){
+      turnstileValidated = true;
+      const status = document.getElementById('turnstile-status');
+      if (status) status.textContent = 'Verificación completada. Ya puedes enviar tu pedido.';
+    }
+
     function enviarPedido(canal){
+      const honeypot = document.getElementById('f-honeypot').value.trim();
+      if (honeypot){
+        alert('No se pudo enviar el pedido. Por favor usa el formulario normal.');
+        return;
+      }
+
+      if (!turnstileValidated){
+        alert('Por favor confirma que no eres un robot antes de enviar tu pedido.');
+        return;
+      }
+
       const msg = construirMensaje();
       if (canal === 'whatsapp'){
         window.open(`https://wa.me/${WA_NUMERO}?text=${encodeURIComponent(msg)}`, '_blank');
@@ -320,6 +350,8 @@
     const MSG_RAPIDO = 'Hola Luis, vi tu página y me interesa saber más sobre tus servicios digitales.';
     document.getElementById('ql-whatsapp').href = `https://wa.me/${WA_NUMERO}?text=${encodeURIComponent(MSG_RAPIDO)}`;
     document.getElementById('ql-email').href = `mailto:${EMAIL_DEST}?subject=${encodeURIComponent('Consulta desde la página')}&body=${encodeURIComponent(MSG_RAPIDO)}`;
+
+    window.onTurnstileSuccess = onTurnstileSuccess;
   </script>
 
 </main>

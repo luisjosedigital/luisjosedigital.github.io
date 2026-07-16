@@ -408,6 +408,9 @@
     background-repeat:no-repeat;background-position:right 14px center;background-size:16px;
     padding-right:38px;
   }
+  .honeypot-field{position:absolute;left:-9999px;top:-9999px;visibility:hidden;height:0;overflow:hidden;}
+  .turnstile-field{margin-bottom:24px;}
+  .turnstile-note{margin-top:12px;color:var(--gray);font-size:0.95rem;line-height:1.6;}
   .pedido-submit{
     width:100%;background:var(--orange);color:var(--black);
     font-weight:600;font-size:0.95rem;
