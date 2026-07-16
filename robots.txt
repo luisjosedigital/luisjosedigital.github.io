@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /entrega/
 
-Sitemap: https://luisjosedigital.github.io/pagina/sitemap.xml
+Sitemap: https://luisjosedigital.github.io/sitemap.xml
