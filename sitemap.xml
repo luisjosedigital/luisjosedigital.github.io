@@ -40,4 +40,14 @@
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
+  <url>
+    <loc>https://luisjosedigital.github.io/blog/como-elegir-consultor-digital/</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://luisjosedigital.github.io/blog/como-vender-mas-con-tu-sitio-web/</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
 </urlset>
