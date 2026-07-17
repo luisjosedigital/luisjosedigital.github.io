@@ -83,7 +83,7 @@
 <script>
   const params = new URLSearchParams(window.location.search);
   const entregaId = params.get('id');
-  const entrega = (typeof ENTREGAS !== 'undefined' && entregaId) ? ENTREGAS[entregaId] : null;
+  const entrega = (typeof DELIVERIES !== 'undefined' && entregaId) ? DELIVERIES[entregaId] : null;
 
   const gateCard = document.getElementById('gate-card');
   const gateSub = document.getElementById('gate-sub');
@@ -98,14 +98,56 @@
     gateSub.textContent = 'No encontramos ninguna entrega con ese enlace. Revisa que copiaste el link completo.';
     pwInput.disabled = true;
     pwSubmit.disabled = true;
-  } else {
-    gateSub.textContent = `Entrega para: ${entrega.cliente}`;
   }
 
-  async function sha256Hex(texto) {
-    const enc = new TextEncoder().encode(texto);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', enc);
-    return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+  function base64ToArrayBuffer(base64) {
+    const binaryString = window.atob(base64);
+    const len = binaryString.length;
+    const bytes = new Uint8Array(len);
+    for (let i = 0; i < len; i++) {
+      bytes[i] = binaryString.charCodeAt(i);
+    }
+    return bytes.buffer;
+  }
+
+  async function deriveKey(password, salt) {
+    const encoder = new TextEncoder();
+    const keyMaterial = await crypto.subtle.importKey(
+      'raw',
+      encoder.encode(password),
+      { name: 'PBKDF2' },
+      false,
+      ['deriveKey']
+    );
+    return crypto.subtle.deriveKey(
+      {
+        name: 'PBKDF2',
+        salt: base64ToArrayBuffer(salt),
+        iterations: 250000,
+        hash: 'SHA-256'
+      },
+      keyMaterial,
+      { name: 'AES-GCM', length: 256 },
+      false,
+      ['decrypt']
+    );
+  }
+
+  async function decryptPayload(password) {
+    try {
+      const key = await deriveKey(password, entrega.salt);
+      const data = base64ToArrayBuffer(entrega.payload);
+      const iv = base64ToArrayBuffer(entrega.iv);
+      const decrypted = await crypto.subtle.decrypt(
+        { name: 'AES-GCM', iv },
+        key,
+        data
+      );
+      const decoded = new TextDecoder().decode(decrypted);
+      return JSON.parse(decoded);
+    } catch (error) {
+      return null;
+    }
   }
 
   async function intentarAcceso() {
@@ -115,15 +157,15 @@
 
     pwSubmit.disabled = true;
     pwSubmit.textContent = 'Verificando...';
+    pwError.style.display = 'none';
 
-    const hash = await sha256Hex(valor);
-
-    if (hash === entrega.passwordHash) {
-      document.getElementById('d-cliente').textContent = entrega.cliente;
-      document.getElementById('d-descripcion').textContent = entrega.descripcion;
+    const data = await decryptPayload(valor);
+    if (data) {
+      document.getElementById('d-cliente').textContent = data.cliente;
+      document.getElementById('d-descripcion').textContent = data.descripcion;
       const cont = document.getElementById('d-archivos');
       cont.innerHTML = '';
-      entrega.archivos.forEach((archivo) => {
+      data.archivos.forEach((archivo) => {
         const row = document.createElement('div');
         row.className = 'delivery-file';
         row.innerHTML = `<span>${archivo.nombre}</span><a class="dl-btn" href="${archivo.url}" target="_blank" rel="noopener">Descargar</a>`;
