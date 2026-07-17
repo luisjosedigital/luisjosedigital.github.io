@@ -53,38 +53,6 @@
     revealEls.forEach((el) => el.classList.add('is-visible'));
   }
 
-  // Banner de cookies
-  const COOKIE_CONSENT_KEY = 'cookieConsentAccepted';
-  const COOKIE_MODAL_TITLE = 'Acepta el uso de cookies';
-  const COOKIE_MODAL_TEXT = 'Este sitio usa cookies y datos para mejorar tu experiencia. Hasta que no aceptes, no podrás interactuar con el contenido.';
-
-  function acceptCookieConsent() {
-    try { localStorage.setItem(COOKIE_CONSENT_KEY, 'true'); } catch (error) { }
-    document.body.classList.remove('cookie-modal-open');
-    const modal = document.getElementById('cookie-modal');
-    if (modal) modal.remove();
-  }
-
-  function createCookieModal() {
-    const isToolsPage = /[/\\]tools[/\\]/.test(window.location.pathname);
-    if (typeof window === 'undefined' || isToolsPage || localStorage.getItem(COOKIE_CONSENT_KEY) === 'true') return;
-    const modal = document.createElement('div');
-    modal.id = 'cookie-modal';
-    modal.className = 'cookie-modal';
-    modal.innerHTML = `
-      <div class="cookie-modal-overlay"></div>
-      <div class="cookie-modal__window">
-        <h2>${COOKIE_MODAL_TITLE}</h2>
-        <p>${COOKIE_MODAL_TEXT}</p>
-        <button type="button" id="cookie-accept-btn">Aceptar cookies</button>
-      </div>
-    `;
-    document.body.appendChild(modal);
-    document.body.classList.add('cookie-modal-open');
-    document.getElementById('cookie-accept-btn').addEventListener('click', acceptCookieConsent);
-  }
-
-  window.addEventListener('load', createCookieModal);
 
   // Resaltar el enlace activo del menú según la sección visible
   const sections = document.querySelectorAll('main section[id]');
